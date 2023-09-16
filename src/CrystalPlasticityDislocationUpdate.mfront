@@ -40,15 +40,19 @@ https://github.com/ngrilli/c_pfor_am/blob/main/src/materials/CrystalPlasticityDi
 // 1: coplanar: same slip plane but different Burgers vector
 @InteractionMatrix{1, 1, 1.4, 1.4, 1.4, 1.4, 1.4};
 
-// TO DO
-
-@Parameter n = 10.0;
-@Parameter K = 25.;
-@Parameter tau0 = 66.62;
-@Parameter Q = 11.43;
-@Parameter b = 2.1;
-@Parameter d = 494.0;
-@Parameter C = 14363;
+// Dislocation based model parameters
+@Parameter ao = 0.001; // Slip rate coefficient 
+@Parameter xm = 0.1; // Exponent for slip rate
+@Parameter creep_ao = 0.0; // Creep rate coefficient 
+@Parameter creep_xm = 0.1; // Exponent for creep rate
+@Parameter burgers_vector_mag = 0.000256; // Magnitude of the Burgers' vector
+@Parameter shear_modulus = 86000.0; // Shear modulus in Taylor hardening law G
+@Parameter alpha_0 = 0.3; // Prefactor of Taylor hardening law, alpha
+@Parameter r = 1.4; // Latent hardening coefficient
+@Parameter tau_c_0 = 0.112; // Peierls stress
+@Parameter k_0 = 1.13; // Coefficient K in SSD evolution, representing accumulation rate
+@Parameter h = 0.0; // Direct hardening coefficient for backstress
+@Parameter h_D = 0.0; // Dynamic recovery coefficient for backstress
 
 @AuxiliaryStateVariable strain p[Nss];
 p.setEntryName("EquivalentViscoplasticSlip");
@@ -56,26 +60,59 @@ p.setEntryName("EquivalentViscoplasticSlip");
 @AuxiliaryStateVariable strain a[Nss];
 a.setEntryName("BackStrain");
 
+// State variables of the dislocation model
+@AuxiliaryStateVariable strain rho_ssd[Nss];
+rho_ssd.setEntryName("rho_ssd");
+
+// TO DO
+
 @Integrator {
   using size_type = unsigned short;
+  
+  // interaction matrix m
   const auto& m = ss.him;
+  
+  // Numerical precisions
   constexpr const auto eeps = 1.e-12;
   const auto seps = eeps * D(0, 0);
+  
+  
+  
+  
+  
+  
   real exp_bp[Nss];
   for (size_type i = 0; i != Nss; ++i) {
       const auto p_ = p[i] + theta * abs(dg[i]);
       exp_bp[i] = exp(-b * p_);
   }
+  
+  // Loop over the slip systems
   for (size_type i = 0; i != Nss; ++i) {
+  
+    // Resolved shear stress
     const auto tau = M | ss.mu[i];
-    auto r = tau0;
+    
+    // Slip resistance
+    auto slip_resistance = tau_c_0;
+    
+    // r is the slip resistance
+    // auto r = tau0;
+    
+    
     for (size_type j = 0; j != Nss; ++j) {
       r += Q * m(i, j) * (1 - exp_bp[j]);
     }
     const auto da =  //
         (dg[i] - d * a[i] * abs(dg[i])) / (1 + theta * d * abs(dg[i]));
     const auto x = C * (a[i] + theta * da);
-    const auto f = max(abs(tau - x) - r, stress(0));
+    
+    
+    // Effective stress
+    const auto effective_stress = abs(tau - x)
+    // const auto f = max(abs(tau - x) - r, stress(0));
+    
+    
     if (f > 1.1 * K) {
       return false;
     }
@@ -94,9 +131,10 @@ a.setEntryName("BackStrain");
       const auto dr = Q * m(i, j) * theta * b * exp_bp[j] * sgn_gj;
       dfg_ddg(i, j) += dt * dv * dr * sgn;
     }
-  }
+  } // End loop over slip systems
 }
 
+// p changed with dislocation density 
 @UpdateAuxiliaryStateVariables {
   using size_type = unsigned short;
   for (size_type i = 0; i != Nss; ++i) {
