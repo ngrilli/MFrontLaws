@@ -77,15 +77,12 @@ rho_ssd.setEntryName("rho_ssd");
   const auto seps = eeps * D(0, 0);
   
   
+  // real exp_bp[Nss];
+  // for (size_type i = 0; i != Nss; ++i) {
+  //     const auto p_ = p[i] + theta * abs(dg[i]);
+  //     exp_bp[i] = exp(-b * p_);
+  // }
   
-  
-  
-  
-  real exp_bp[Nss];
-  for (size_type i = 0; i != Nss; ++i) {
-      const auto p_ = p[i] + theta * abs(dg[i]);
-      exp_bp[i] = exp(-b * p_);
-  }
   
   // Loop over the slip systems
   for (size_type i = 0; i != Nss; ++i) {
@@ -93,35 +90,66 @@ rho_ssd.setEntryName("rho_ssd");
     // Resolved shear stress
     const auto tau = M | ss.mu[i];
     
+    // sum of the dislocation densities
+    // weighted with hardening
+    auto taylor_hardening = 0.0;
+    
+    // Effective stress
+    const auto effective_stress = abs(tau);
+    
     // Slip resistance
     auto slip_resistance = tau_c_0;
     
+    for (size_type j = 0; j != Nss; ++j) {
+    
+      taylor_hardening += m(i,j) * rho_ssd[j];
+    
+    }
+    
+    slip_resistance += alpha_0 * shear_modulus * burgers_vector_mag * std::sqrt(taylor_hardening);
+    
+    auto stress_ratio = tau / slip_resistance;
+    
+
     // r is the slip resistance
     // auto r = tau0;
     
+    // for (size_type j = 0; j != Nss; ++j) {
+    //   r += Q * m(i, j) * (1 - exp_bp[j]);
+    // }
     
-    for (size_type j = 0; j != Nss; ++j) {
-      r += Q * m(i, j) * (1 - exp_bp[j]);
-    }
-    const auto da =  //
-        (dg[i] - d * a[i] * abs(dg[i])) / (1 + theta * d * abs(dg[i]));
-    const auto x = C * (a[i] + theta * da);
+    // const auto da =  //
+    //    (dg[i] - d * a[i] * abs(dg[i])) / (1 + theta * d * abs(dg[i]));
+    // const auto x = C * (a[i] + theta * da);
     
     
     // Effective stress
-    const auto effective_stress = abs(tau - x)
+    // const auto effective_stress = abs(tau - x)
     // const auto f = max(abs(tau - x) - r, stress(0));
+    // f is the stress ratio
     
-    
-    if (f > 1.1 * K) {
+    // Check that stress does not become too large
+    // compared with yield strength
+    if (stress_ratio > 2) {
       return false;
     }
-    const auto sgn = tau - x > 0 ? 1 : -1;
-    // viscoplasticity
-    const auto v = pow(f / K, n);
-    const auto dv = n * v / (max(f, seps));
-    fg[i] -= dt * pow(f / K, n) * sgn;
+    
+    // Sign of the critical resolved shear stress
+    const auto sgn = tau > 0 ? 1 : -1;
+    
+    // Power low slip rate exponent
+    auto n = 1.0 / xm;
+    
+    // Plastic strain rate calculations
+    const auto v = ao * pow(stress_ratio, n);
+    const auto dv = n * ao * v / (max(stress_ratio, seps));
+    
+    // Residual of gammadot parameter and derivatives
+    fg[i] -= dt * v * sgn;
     dfg_ddeel(i) = -dt * dv * (ss.mu[i] | dM_ddeel);
+    
+    
+    
     const auto sgn_gi = dg(i) > 0 ? 1 : -1;
     const auto dda_ddg =
         (1 - d * a[i] * sgn_gi) / (power<2>(1 + theta * d * abs(dg[i])));
