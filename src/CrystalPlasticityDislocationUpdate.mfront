@@ -57,14 +57,9 @@ https://github.com/ngrilli/c_pfor_am/blob/main/src/materials/CrystalPlasticityDi
 @AuxiliaryStateVariable strain p[Nss];
 p.setEntryName("EquivalentViscoplasticSlip");
 
-// @AuxiliaryStateVariable strain a[Nss];
-// a.setEntryName("BackStrain");
-
 // State variables of the dislocation model
 @AuxiliaryStateVariable strain rho_ssd[Nss];
 rho_ssd.setEntryName("rho_ssd");
-
-// TO DO
 
 @Integrator {
   using size_type = unsigned short;
@@ -75,14 +70,6 @@ rho_ssd.setEntryName("rho_ssd");
   // Numerical precisions
   constexpr const auto eeps = 1.e-12;
   const auto seps = eeps * D(0, 0);
-  
-  
-  // real exp_bp[Nss];
-  // for (size_type i = 0; i != Nss; ++i) {
-  //     const auto p_ = p[i] + theta * abs(dg[i]);
-  //     exp_bp[i] = exp(-b * p_);
-  // }
-  
   
   // Loop over the slip systems
   for (size_type i = 0; i != Nss; ++i) {
@@ -110,24 +97,6 @@ rho_ssd.setEntryName("rho_ssd");
     
     auto stress_ratio = abs(tau / slip_resistance);
     
-
-    // r is the slip resistance
-    // auto r = tau0;
-    
-    // for (size_type j = 0; j != Nss; ++j) {
-    //   r += Q * m(i, j) * (1 - exp_bp[j]);
-    // }
-    
-    // const auto da =  //
-    //    (dg[i] - d * a[i] * abs(dg[i])) / (1 + theta * d * abs(dg[i]));
-    // const auto x = C * (a[i] + theta * da);
-    
-    
-    // Effective stress
-    // const auto effective_stress = abs(tau - x)
-    // const auto f = max(abs(tau - x) - r, stress(0));
-    // f is the stress ratio
-    
     // Check that stress does not become too large
     // compared with yield strength
     if (stress_ratio > 2) {
@@ -142,25 +111,13 @@ rho_ssd.setEntryName("rho_ssd");
     
     // Plastic strain rate calculations
     const auto v = ao * pow(stress_ratio, n);
-    const auto dv = n * ao * v / (max(stress_ratio, seps));
+    const auto dv = n * ao * v / (max(stress_ratio, seps));  // check denominator
     
     // Residual of gammadot parameter and derivatives
     fg[i] -= dt * v * sgn;
     dfg_ddeel(i) = -dt * dv * (ss.mu[i] | dM_ddeel);
     
-    
-    
-    //const auto sgn_gi = dg(i) > 0 ? 1 : -1;
-    //const auto dda_ddg =
-    //    (1 - d * a[i] * sgn_gi) / (power<2>(1 + theta * d * abs(dg[i])));
-    
-    
-    // dfg_ddg(i, i) += dt * dv * C * theta * dda_ddg;
-    
-    // dfg_ddg tiene conto della derivata di slip_resistance
-    // rispetto a rho_ssd
-    
-    dfg_ddg(i, i) += 0.0;
+    dfg_ddg(i, i) += dt * dv * C; // check
     
     for (size_type j = 0; j != Nss; ++j) {
       const auto sgn_gj = dg(j) > 0 ? 1 : -1;
@@ -177,10 +134,7 @@ rho_ssd.setEntryName("rho_ssd");
     
     p[i] += abs(dg[i]);
     
-    rho_ssd[i] += () * abs(dg[i]);
+    rho_ssd[i] += (k_0 * std::sqrt(rho_ssd[i]) - 2.0 * y_c * rho_ssd[i]) * abs(dg[i]) / burgers_vector_mag;
     
-    //const auto da =  //
-    //    (dg[i] - d * a[i] * abs(dg[i])) / (1 + theta * d * abs(dg[i]));
-    // a[i] += da;
   }
 }
