@@ -51,6 +51,7 @@ https://github.com/ngrilli/c_pfor_am/blob/main/src/materials/CrystalPlasticityDi
 @Parameter r = 1.4; // Latent hardening coefficient
 @Parameter tau_c_0 = 0.112; // Peierls stress
 @Parameter k_0 = 1.13; // Coefficient K in SSD evolution, representing accumulation rate
+@Parameter y_c = 0.0026; // Critical annihilation diameter
 @Parameter h = 0.0; // Direct hardening coefficient for backstress
 @Parameter h_D = 0.0; // Dynamic recovery coefficient for backstress
 
@@ -95,7 +96,13 @@ rho_ssd.setEntryName("rho_ssd");
     
     slip_resistance += alpha_0 * shear_modulus * burgers_vector_mag * std::sqrt(taylor_hardening);
     
-    auto stress_ratio = abs(tau / slip_resistance);
+    // Derivative of the slip resistance with respect to gammadot
+    // of the same slip system
+    auto dslip_resistance_dgammadoti = 0.5 * alpha_0 * shear_modulus * burgers_vector_mag / std::sqrt(taylor_hardening);
+    auto drho_ssd_dgammadoti = (k_0 * std::sqrt(rho_ssd[i]) - 2.0 * y_c * rho_ssd[i]) / burgers_vector_mag;
+    dslip_resistance_dgammadoti *= m(i,i) * drho_ssd_dgammadoti;
+    
+    auto stress_ratio = effective_stress / slip_resistance;
     
     // Check that stress does not become too large
     // compared with yield strength
@@ -111,13 +118,16 @@ rho_ssd.setEntryName("rho_ssd");
     
     // Plastic strain rate calculations
     const auto v = ao * pow(stress_ratio, n);
-    const auto dv = n * ao * v / (max(stress_ratio, seps));  // check denominator
+    const auto dv = n * ao * pow(stress_ratio, n-1) / slip_resistance;
     
-    // Residual of gammadot parameter and derivatives
+    // Residual of gammadot variable
     fg[i] -= dt * v * sgn;
+    
+    // and its derivative with respect to elastic strain
     dfg_ddeel(i) = -dt * dv * (ss.mu[i] | dM_ddeel);
     
-    dfg_ddg(i, i) += dt * dv * C; // check
+    // and its derivative with respect to the gammadot
+    dfg_ddg(i, i) += dt * n * ao * (pow(stress_ratio, n) / slip_resistance) * sgn * dslip_resistance_dgammadoti;
     
     for (size_type j = 0; j != Nss; ++j) {
       const auto sgn_gj = dg(j) > 0 ? 1 : -1;
