@@ -11,7 +11,7 @@
 @InternalStateVariable 'ElasticPartOfTheDeformationGradient' {1,1,1,0,0,0,0,0,0};
 
 // Initialization of the dislocation density
-@InternalStateVariable 'rho_ssd' {257.36,257.36,257.36,257.36,257.36,257.36,257.36,257.36,257.36,257.36,257.36,257.36};
+@InternalStateVariable 'rho_ssd' {257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578};
 
 // Crystal orientation
 @RotationMatrix {{ 1.0 , 0.0 , 0.0 },

@@ -46,7 +46,7 @@ https://github.com/ngrilli/c_pfor_am/blob/main/src/materials/CrystalPlasticityDi
 @Parameter creep_ao = 0.0; // Creep rate coefficient 
 @Parameter creep_xm = 0.1; // Exponent for creep rate
 @Parameter burgers_vector_mag = 0.000256; // Magnitude of the Burgers' vector
-@Parameter shear_modulus = 86000.0; // Shear modulus in Taylor hardening law G
+@Parameter shear_modulus = 91884.6; // Shear modulus in Taylor hardening law G
 @Parameter alpha_0 = 0.3; // Prefactor of Taylor hardening law, alpha
 @Parameter r = 1.4; // Latent hardening coefficient
 @Parameter tau_c_0 = 0.112; // Peierls stress
@@ -128,7 +128,9 @@ rho_ssd.setEntryName("rho_ssd");
     
     // and its derivative with respect to the gammadot
     // of the same slip system
-    dfg_ddg(i, i) += 0.0; //dt * n * ao * (pow(stress_ratio, n) / slip_resistance) * sgn * dslip_resistance_dgammadoti;
+    // This expression causes convergence problems
+    //dt * n * ao * (pow(stress_ratio, n) / slip_resistance) * sgn * dslip_resistance_dgammadoti;
+    dfg_ddg(i, i) += 0.0; 
     
     auto dslip_resistance_dgammadotj = 0.5 * alpha_0 * shear_modulus * burgers_vector_mag / std::sqrt(taylor_hardening);
     
@@ -137,7 +139,9 @@ rho_ssd.setEntryName("rho_ssd");
       auto drho_ssd_dgammadotj = (k_0 * std::sqrt(rho_ssd[j]) - 2.0 * y_c * rho_ssd[j]) / burgers_vector_mag;
       dslip_resistance_dgammadotj *= m(i,j) * drho_ssd_dgammadotj;
 
-      dfg_ddg(i, j) += 0.0; // dt * n * ao * (pow(stress_ratio, n) / slip_resistance) * sgn * dslip_resistance_dgammadotj;
+      // This expression causes convergence problems
+      // dt * n * ao * (pow(stress_ratio, n) / slip_resistance) * sgn * dslip_resistance_dgammadotj;
+      dfg_ddg(i, j) += 0.0; 
     }
   } // End loop over slip systems
 }
