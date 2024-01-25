@@ -46,7 +46,7 @@ https://github.com/ngrilli/c_pfor_am/blob/main/src/materials/CrystalPlasticityDi
 @Parameter creep_ao = 0.0; // Creep rate coefficient 
 @Parameter creep_xm = 0.1; // Exponent for creep rate
 @Parameter burgers_vector_mag = 0.000256; // Magnitude of the Burgers' vector
-@Parameter shear_modulus = 91884.6; // Shear modulus in Taylor hardening law G
+@Parameter shear_modulus = 126200.0; // Shear modulus in Taylor hardening law G
 @Parameter alpha_0 = 0.3; // Prefactor of Taylor hardening law, alpha
 @Parameter r = 1.4; // Latent hardening coefficient
 @Parameter tau_c_0 = 0.112; // Peierls stress
@@ -54,13 +54,15 @@ https://github.com/ngrilli/c_pfor_am/blob/main/src/materials/CrystalPlasticityDi
 @Parameter y_c = 0.0013; // Critical annihilation diameter
 @Parameter h = 0.0; // Direct hardening coefficient for backstress
 @Parameter h_D = 0.0; // Dynamic recovery coefficient for backstress
+@Parameter init_rho_ssd = 4.921; // Initial dislocation density on each slip system
 
 @AuxiliaryStateVariable strain p[Nss];
 p.setEntryName("EquivalentViscoplasticSlip");
 
 // State variables of the dislocation model
-@AuxiliaryStateVariable strain rho_ssd[Nss];
-rho_ssd.setEntryName("rho_ssd");
+// This is the increase in the dislocation density
+@AuxiliaryStateVariable strain delta_rho_ssd[Nss];
+delta_rho_ssd.setEntryName("delta_rho_ssd");
 
 @Integrator {
   using size_type = unsigned short;
@@ -90,7 +92,7 @@ rho_ssd.setEntryName("rho_ssd");
     
     for (size_type j = 0; j != Nss; ++j) {
     
-      taylor_hardening += m(i,j) * rho_ssd[j];
+      taylor_hardening += m(i,j) * (init_rho_ssd + delta_rho_ssd[j]);
     
     }
     
@@ -99,7 +101,7 @@ rho_ssd.setEntryName("rho_ssd");
     // Derivative of the slip resistance with respect to gammadot
     // of the same slip system
     auto dslip_resistance_dgammadoti = 0.5 * alpha_0 * shear_modulus * burgers_vector_mag / std::sqrt(taylor_hardening);
-    auto drho_ssd_dgammadoti = (k_0 * std::sqrt(rho_ssd[i]) - 2.0 * y_c * rho_ssd[i]) / burgers_vector_mag;
+    auto drho_ssd_dgammadoti = (k_0 * std::sqrt(init_rho_ssd + delta_rho_ssd[i]) - 2.0 * y_c * (init_rho_ssd + delta_rho_ssd[i])) / burgers_vector_mag;
     dslip_resistance_dgammadoti *= m(i,i) * drho_ssd_dgammadoti;
     
     auto stress_ratio = effective_stress / slip_resistance;
@@ -136,7 +138,7 @@ rho_ssd.setEntryName("rho_ssd");
     
     for (size_type j = 0; j != Nss; ++j) {
     
-      auto drho_ssd_dgammadotj = (k_0 * std::sqrt(rho_ssd[j]) - 2.0 * y_c * rho_ssd[j]) / burgers_vector_mag;
+      auto drho_ssd_dgammadotj = (k_0 * std::sqrt(init_rho_ssd + delta_rho_ssd[j]) - 2.0 * y_c * (init_rho_ssd + delta_rho_ssd[j])) / burgers_vector_mag;
       dslip_resistance_dgammadotj *= m(i,j) * drho_ssd_dgammadotj;
 
       // This expression causes convergence problems
@@ -146,14 +148,14 @@ rho_ssd.setEntryName("rho_ssd");
   } // End loop over slip systems
 }
 
-// Update p and rho_ssd
+// Update p and delta_rho_ssd
 @UpdateAuxiliaryStateVariables {
   using size_type = unsigned short;
   for (size_type i = 0; i != Nss; ++i) {
     
     p[i] += abs(dg[i]);
     
-    rho_ssd[i] += (k_0 * std::sqrt(rho_ssd[i]) - 2.0 * y_c * rho_ssd[i]) * abs(dg[i]) / burgers_vector_mag;
+    delta_rho_ssd[i] += (k_0 * std::sqrt(init_rho_ssd + delta_rho_ssd[i]) - 2.0 * y_c * (init_rho_ssd + delta_rho_ssd[i])) * abs(dg[i]) / burgers_vector_mag;
     
   }
 }
