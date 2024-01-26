@@ -141,10 +141,10 @@ StressStensor sig;
 
 tfel::math::tvector<12, strain > g;
 DeformationGradientTensor Fe;
-#line 58 "CrystalPlasticityDislocationUpdate.mfront"
+#line 59 "CrystalPlasticityDislocationUpdate.mfront"
 tfel::math::tvector<12, strain > p;
-#line 62 "CrystalPlasticityDislocationUpdate.mfront"
-tfel::math::tvector<12, strain > rho_ssd;
+#line 64 "CrystalPlasticityDislocationUpdate.mfront"
+tfel::math::tvector<12, strain > delta_rho_ssd;
 temperature T;
 
 public:
@@ -164,7 +164,7 @@ sig(src.sig),
 g(src.g),
 Fe(src.Fe),
 p(src.p),
-rho_ssd(src.rho_ssd),
+delta_rho_ssd(src.delta_rho_ssd),
 T(src.T)
 {}
 
@@ -205,18 +205,18 @@ p[8] = ASTERint_vars[20+TensorSize];
 p[9] = ASTERint_vars[21+TensorSize];
 p[10] = ASTERint_vars[22+TensorSize];
 p[11] = ASTERint_vars[23+TensorSize];
-rho_ssd[0] = ASTERint_vars[24+TensorSize];
-rho_ssd[1] = ASTERint_vars[25+TensorSize];
-rho_ssd[2] = ASTERint_vars[26+TensorSize];
-rho_ssd[3] = ASTERint_vars[27+TensorSize];
-rho_ssd[4] = ASTERint_vars[28+TensorSize];
-rho_ssd[5] = ASTERint_vars[29+TensorSize];
-rho_ssd[6] = ASTERint_vars[30+TensorSize];
-rho_ssd[7] = ASTERint_vars[31+TensorSize];
-rho_ssd[8] = ASTERint_vars[32+TensorSize];
-rho_ssd[9] = ASTERint_vars[33+TensorSize];
-rho_ssd[10] = ASTERint_vars[34+TensorSize];
-rho_ssd[11] = ASTERint_vars[35+TensorSize];
+delta_rho_ssd[0] = ASTERint_vars[24+TensorSize];
+delta_rho_ssd[1] = ASTERint_vars[25+TensorSize];
+delta_rho_ssd[2] = ASTERint_vars[26+TensorSize];
+delta_rho_ssd[3] = ASTERint_vars[27+TensorSize];
+delta_rho_ssd[4] = ASTERint_vars[28+TensorSize];
+delta_rho_ssd[5] = ASTERint_vars[29+TensorSize];
+delta_rho_ssd[6] = ASTERint_vars[30+TensorSize];
+delta_rho_ssd[7] = ASTERint_vars[31+TensorSize];
+delta_rho_ssd[8] = ASTERint_vars[32+TensorSize];
+delta_rho_ssd[9] = ASTERint_vars[33+TensorSize];
+delta_rho_ssd[10] = ASTERint_vars[34+TensorSize];
+delta_rho_ssd[11] = ASTERint_vars[35+TensorSize];
 }
 
 void setASTERBehaviourDataGradients(const Type* const ASTERstran)
@@ -240,7 +240,7 @@ this->sig = src.sig;
 this->g = src.g;
 this->Fe = src.Fe;
 this->p = src.p;
-this->rho_ssd = src.rho_ssd;
+this->delta_rho_ssd = src.delta_rho_ssd;
 this->T = src.T;
 return *this;
 }
@@ -275,18 +275,18 @@ ASTERstatev[20+TensorSize] = this->p[8];
 ASTERstatev[21+TensorSize] = this->p[9];
 ASTERstatev[22+TensorSize] = this->p[10];
 ASTERstatev[23+TensorSize] = this->p[11];
-ASTERstatev[24+TensorSize] = this->rho_ssd[0];
-ASTERstatev[25+TensorSize] = this->rho_ssd[1];
-ASTERstatev[26+TensorSize] = this->rho_ssd[2];
-ASTERstatev[27+TensorSize] = this->rho_ssd[3];
-ASTERstatev[28+TensorSize] = this->rho_ssd[4];
-ASTERstatev[29+TensorSize] = this->rho_ssd[5];
-ASTERstatev[30+TensorSize] = this->rho_ssd[6];
-ASTERstatev[31+TensorSize] = this->rho_ssd[7];
-ASTERstatev[32+TensorSize] = this->rho_ssd[8];
-ASTERstatev[33+TensorSize] = this->rho_ssd[9];
-ASTERstatev[34+TensorSize] = this->rho_ssd[10];
-ASTERstatev[35+TensorSize] = this->rho_ssd[11];
+ASTERstatev[24+TensorSize] = this->delta_rho_ssd[0];
+ASTERstatev[25+TensorSize] = this->delta_rho_ssd[1];
+ASTERstatev[26+TensorSize] = this->delta_rho_ssd[2];
+ASTERstatev[27+TensorSize] = this->delta_rho_ssd[3];
+ASTERstatev[28+TensorSize] = this->delta_rho_ssd[4];
+ASTERstatev[29+TensorSize] = this->delta_rho_ssd[5];
+ASTERstatev[30+TensorSize] = this->delta_rho_ssd[6];
+ASTERstatev[31+TensorSize] = this->delta_rho_ssd[7];
+ASTERstatev[32+TensorSize] = this->delta_rho_ssd[8];
+ASTERstatev[33+TensorSize] = this->delta_rho_ssd[9];
+ASTERstatev[34+TensorSize] = this->delta_rho_ssd[10];
+ASTERstatev[35+TensorSize] = this->delta_rho_ssd[11];
 } // end of ASTERexportStateData
 
 }; // end of CrystalPlasticityDislocationUpdateBehaviourDataclass
@@ -300,7 +300,7 @@ os << "σ : " << b.sig << '\n';
 os << "g : " << b.g << '\n';
 os << "Fe : " << b.Fe << '\n';
 os << "p : " << b.p << '\n';
-os << "rho_ssd : " << b.rho_ssd << '\n';
+os << "delta_rho_ssd : " << b.delta_rho_ssd << '\n';
 os << "T : " << b.T << '\n';
 return os;
 }

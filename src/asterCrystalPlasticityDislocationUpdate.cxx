@@ -81,24 +81,24 @@ MFRONT_SHAREDOBJ const char * astercrystalplasticitydislocationupdate_Tridimensi
 "PlasticSlip[6]","PlasticSlip[7]","PlasticSlip[8]","PlasticSlip[9]","PlasticSlip[10]",
 "PlasticSlip[11]","ElasticPartOfTheDeformationGradient","EquivalentViscoplasticSlip[0]","EquivalentViscoplasticSlip[1]","EquivalentViscoplasticSlip[2]",
 "EquivalentViscoplasticSlip[3]","EquivalentViscoplasticSlip[4]","EquivalentViscoplasticSlip[5]","EquivalentViscoplasticSlip[6]","EquivalentViscoplasticSlip[7]",
-"EquivalentViscoplasticSlip[8]","EquivalentViscoplasticSlip[9]","EquivalentViscoplasticSlip[10]","EquivalentViscoplasticSlip[11]","rho_ssd[0]",
-"rho_ssd[1]","rho_ssd[2]","rho_ssd[3]","rho_ssd[4]","rho_ssd[5]",
-"rho_ssd[6]","rho_ssd[7]","rho_ssd[8]","rho_ssd[9]","rho_ssd[10]",
-"rho_ssd[11]"};
+"EquivalentViscoplasticSlip[8]","EquivalentViscoplasticSlip[9]","EquivalentViscoplasticSlip[10]","EquivalentViscoplasticSlip[11]","delta_rho_ssd[0]",
+"delta_rho_ssd[1]","delta_rho_ssd[2]","delta_rho_ssd[3]","delta_rho_ssd[4]","delta_rho_ssd[5]",
+"delta_rho_ssd[6]","delta_rho_ssd[7]","delta_rho_ssd[8]","delta_rho_ssd[9]","delta_rho_ssd[10]",
+"delta_rho_ssd[11]"};
 MFRONT_SHAREDOBJ int astercrystalplasticitydislocationupdate_Tridimensional_InternalStateVariablesTypes [] = {0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 MFRONT_SHAREDOBJ unsigned short astercrystalplasticitydislocationupdate_Tridimensional_nExternalStateVariables = 0;
 MFRONT_SHAREDOBJ const char * const * astercrystalplasticitydislocationupdate_Tridimensional_ExternalStateVariables = nullptr;
 
-MFRONT_SHAREDOBJ unsigned short astercrystalplasticitydislocationupdate_Tridimensional_nParameters = 28;
-MFRONT_SHAREDOBJ const char * astercrystalplasticitydislocationupdate_Tridimensional_Parameters[28] = {"epsilon",
+MFRONT_SHAREDOBJ unsigned short astercrystalplasticitydislocationupdate_Tridimensional_nParameters = 29;
+MFRONT_SHAREDOBJ const char * astercrystalplasticitydislocationupdate_Tridimensional_Parameters[29] = {"epsilon",
 "theta","YoungModulus1","YoungModulus2","YoungModulus3","PoissonRatio12",
 "PoissonRatio23","PoissonRatio13","ShearModulus12","ShearModulus23","ShearModulus13",
 "ao","xm","creep_ao","creep_xm","burgers_vector_mag",
 "shear_modulus","alpha_0","r","tau_c_0","k_0",
-"y_c","h","h_D","minimal_time_step_scaling_factor","maximal_time_step_scaling_factor",
-"numerical_jacobian_epsilon","iterMax"};
-MFRONT_SHAREDOBJ int astercrystalplasticitydislocationupdate_Tridimensional_ParametersTypes [] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2};
+"y_c","h","h_D","init_rho_ssd","minimal_time_step_scaling_factor",
+"maximal_time_step_scaling_factor","numerical_jacobian_epsilon","iterMax"};
+MFRONT_SHAREDOBJ int astercrystalplasticitydislocationupdate_Tridimensional_ParametersTypes [] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2};
 
 MFRONT_SHAREDOBJ double astercrystalplasticitydislocationupdate_Tridimensional_epsilon_ParameterDefaultValue = 1e-14;
 
@@ -132,7 +132,7 @@ MFRONT_SHAREDOBJ double astercrystalplasticitydislocationupdate_Tridimensional_c
 
 MFRONT_SHAREDOBJ double astercrystalplasticitydislocationupdate_Tridimensional_burgers_vector_mag_ParameterDefaultValue = 0.000256;
 
-MFRONT_SHAREDOBJ double astercrystalplasticitydislocationupdate_Tridimensional_shear_modulus_ParameterDefaultValue = 91884.6;
+MFRONT_SHAREDOBJ double astercrystalplasticitydislocationupdate_Tridimensional_shear_modulus_ParameterDefaultValue = 126200;
 
 MFRONT_SHAREDOBJ double astercrystalplasticitydislocationupdate_Tridimensional_alpha_0_ParameterDefaultValue = 0.3;
 
@@ -147,6 +147,8 @@ MFRONT_SHAREDOBJ double astercrystalplasticitydislocationupdate_Tridimensional_y
 MFRONT_SHAREDOBJ double astercrystalplasticitydislocationupdate_Tridimensional_h_ParameterDefaultValue = 0;
 
 MFRONT_SHAREDOBJ double astercrystalplasticitydislocationupdate_Tridimensional_h_D_ParameterDefaultValue = 0;
+
+MFRONT_SHAREDOBJ double astercrystalplasticitydislocationupdate_Tridimensional_init_rho_ssd_ParameterDefaultValue = 4.921;
 
 MFRONT_SHAREDOBJ double astercrystalplasticitydislocationupdate_Tridimensional_minimal_time_step_scaling_factor_ParameterDefaultValue = 0.1;
 

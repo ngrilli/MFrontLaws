@@ -87,6 +87,8 @@ CrystalPlasticityDislocationUpdateParametersInitializer::get().set("y_c",v);
 CrystalPlasticityDislocationUpdateParametersInitializer::get().set("h",v);
 } else if(::strcmp("h_D",key)==0){
 CrystalPlasticityDislocationUpdateParametersInitializer::get().set("h_D",v);
+} else if(::strcmp("init_rho_ssd",key)==0){
+CrystalPlasticityDislocationUpdateParametersInitializer::get().set("init_rho_ssd",v);
 } else if(::strcmp("minimal_time_step_scaling_factor",key)==0){
 CrystalPlasticityDislocationUpdateParametersInitializer::get().set("minimal_time_step_scaling_factor",v);
 } else if(::strcmp("maximal_time_step_scaling_factor",key)==0){
@@ -215,6 +217,9 @@ CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tok
 } else if("h_D"==tokens[0]){
 CrystalPlasticityDislocationUpdateParametersInitializer::get().set("h_D",
 CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
+} else if("init_rho_ssd"==tokens[0]){
+CrystalPlasticityDislocationUpdateParametersInitializer::get().set("init_rho_ssd",
+CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
 } else if("minimal_time_step_scaling_factor"==tokens[0]){
 CrystalPlasticityDislocationUpdateParametersInitializer::get().set("minimal_time_step_scaling_factor",
 CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
@@ -258,7 +263,7 @@ this->xm = 0.1;
 this->creep_ao = 0;
 this->creep_xm = 0.1;
 this->burgers_vector_mag = 0.000256;
-this->shear_modulus = 91884.6;
+this->shear_modulus = 126200;
 this->alpha_0 = 0.3;
 this->r = 1.4;
 this->tau_c_0 = 0.112;
@@ -266,6 +271,7 @@ this->k_0 = 1.13;
 this->y_c = 0.0013;
 this->h = 0;
 this->h_D = 0;
+this->init_rho_ssd = 4.921;
 this->minimal_time_step_scaling_factor = 0.1;
 this->maximal_time_step_scaling_factor = 1.79769e+308;
 this->numerical_jacobian_epsilon = 1e-15;
@@ -326,6 +332,8 @@ this->y_c = v;
 this->h = v;
 } else if(::strcmp("h_D",key)==0){
 this->h_D = v;
+} else if(::strcmp("init_rho_ssd",key)==0){
+this->init_rho_ssd = v;
 } else if(::strcmp("minimal_time_step_scaling_factor",key)==0){
 this->minimal_time_step_scaling_factor = v;
 } else if(::strcmp("maximal_time_step_scaling_factor",key)==0){
@@ -456,6 +464,8 @@ pi.y_c = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(toke
 pi.h = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
 } else if("h_D"==tokens[0]){
 pi.h_D = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
+} else if("init_rho_ssd"==tokens[0]){
+pi.init_rho_ssd = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
 } else if("minimal_time_step_scaling_factor"==tokens[0]){
 pi.minimal_time_step_scaling_factor = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
 } else if("maximal_time_step_scaling_factor"==tokens[0]){

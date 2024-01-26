@@ -125,6 +125,7 @@ double k_0;
 double y_c;
 double h;
 double h_D;
+double init_rho_ssd;
 double minimal_time_step_scaling_factor;
 double maximal_time_step_scaling_factor;
 double numerical_jacobian_epsilon;
@@ -341,6 +342,8 @@ real y_c;
 real h;
 #line 56 "CrystalPlasticityDislocationUpdate.mfront"
 real h_D;
+#line 57 "CrystalPlasticityDislocationUpdate.mfront"
+real init_rho_ssd;
 real minimal_time_step_scaling_factor;
 real maximal_time_step_scaling_factor;
 real numerical_jacobian_epsilon;
@@ -513,15 +516,15 @@ this->g += this->dg;
 void updateAuxiliaryStateVariables(){
 using namespace std;
 using namespace tfel::math;
-#line 151 "CrystalPlasticityDislocationUpdate.mfront"
+#line 153 "CrystalPlasticityDislocationUpdate.mfront"
 using size_type = unsigned short;
-#line 152 "CrystalPlasticityDislocationUpdate.mfront"
-for (size_type i = 0; i != CrystalPlasticityDislocationUpdate::Nss; ++i) {
 #line 154 "CrystalPlasticityDislocationUpdate.mfront"
-this->p[i] += abs(this->dg[i]);
+for (size_type i = 0; i != CrystalPlasticityDislocationUpdate::Nss; ++i) {
 #line 156 "CrystalPlasticityDislocationUpdate.mfront"
-this->rho_ssd[i] += (this->k_0 * std::sqrt(this->rho_ssd[i]) - 2.0 * this->y_c * this->rho_ssd[i]) * abs(this->dg[i]) / this->burgers_vector_mag;
+this->p[i] += abs(this->dg[i]);
 #line 158 "CrystalPlasticityDislocationUpdate.mfront"
+this->delta_rho_ssd[i] += (this->k_0 * std::sqrt(this->init_rho_ssd + this->delta_rho_ssd[i]) - 2.0 * this->y_c * (this->init_rho_ssd + this->delta_rho_ssd[i])) * abs(this->dg[i]) / this->burgers_vector_mag;
+#line 160 "CrystalPlasticityDislocationUpdate.mfront"
 }
 }
 
@@ -574,6 +577,7 @@ this->k_0 = CrystalPlasticityDislocationUpdateParametersInitializer::get().k_0;
 this->y_c = CrystalPlasticityDislocationUpdateParametersInitializer::get().y_c;
 this->h = CrystalPlasticityDislocationUpdateParametersInitializer::get().h;
 this->h_D = CrystalPlasticityDislocationUpdateParametersInitializer::get().h_D;
+this->init_rho_ssd = CrystalPlasticityDislocationUpdateParametersInitializer::get().init_rho_ssd;
 this->minimal_time_step_scaling_factor = CrystalPlasticityDislocationUpdateParametersInitializer::get().minimal_time_step_scaling_factor;
 this->maximal_time_step_scaling_factor = CrystalPlasticityDislocationUpdateParametersInitializer::get().maximal_time_step_scaling_factor;
 this->numerical_jacobian_epsilon = CrystalPlasticityDislocationUpdateParametersInitializer::get().numerical_jacobian_epsilon;
@@ -643,6 +647,7 @@ this->k_0 = CrystalPlasticityDislocationUpdateParametersInitializer::get().k_0;
 this->y_c = CrystalPlasticityDislocationUpdateParametersInitializer::get().y_c;
 this->h = CrystalPlasticityDislocationUpdateParametersInitializer::get().h;
 this->h_D = CrystalPlasticityDislocationUpdateParametersInitializer::get().h_D;
+this->init_rho_ssd = CrystalPlasticityDislocationUpdateParametersInitializer::get().init_rho_ssd;
 this->minimal_time_step_scaling_factor = CrystalPlasticityDislocationUpdateParametersInitializer::get().minimal_time_step_scaling_factor;
 this->maximal_time_step_scaling_factor = CrystalPlasticityDislocationUpdateParametersInitializer::get().maximal_time_step_scaling_factor;
 this->numerical_jacobian_epsilon = CrystalPlasticityDislocationUpdateParametersInitializer::get().numerical_jacobian_epsilon;
@@ -817,73 +822,73 @@ const auto fsscb_dfeel_dinv_dFp = t2tost2<N,real>::dCdF(this->Fe)*fsscb_tprd;
 for(unsigned short i=0;i!=CrystalPlasticityDislocationUpdateSlipSystems<real>::Nss;++i){
   dfeel_ddg(i) = (fsscb_dfeel_dinv_dFp)*ss.mu[i]/2;
 }
-#line 66 "CrystalPlasticityDislocationUpdate.mfront"
+#line 68 "CrystalPlasticityDislocationUpdate.mfront"
 using size_type = unsigned short;
-#line 69 "CrystalPlasticityDislocationUpdate.mfront"
+#line 71 "CrystalPlasticityDislocationUpdate.mfront"
 const auto& m = ss.him;
-#line 72 "CrystalPlasticityDislocationUpdate.mfront"
+#line 74 "CrystalPlasticityDislocationUpdate.mfront"
 constexpr const auto eeps = 1.e-12;
-#line 73 "CrystalPlasticityDislocationUpdate.mfront"
+#line 75 "CrystalPlasticityDislocationUpdate.mfront"
 const auto seps = eeps * (this->D)(0, 0);
-#line 76 "CrystalPlasticityDislocationUpdate.mfront"
+#line 78 "CrystalPlasticityDislocationUpdate.mfront"
 for (size_type i = 0; i != CrystalPlasticityDislocationUpdate::Nss; ++i) {
-#line 79 "CrystalPlasticityDislocationUpdate.mfront"
+#line 81 "CrystalPlasticityDislocationUpdate.mfront"
 const auto tau = M | ss.mu[i];
-#line 83 "CrystalPlasticityDislocationUpdate.mfront"
+#line 85 "CrystalPlasticityDislocationUpdate.mfront"
 auto taylor_hardening = 0.0;
-#line 86 "CrystalPlasticityDislocationUpdate.mfront"
+#line 88 "CrystalPlasticityDislocationUpdate.mfront"
 const auto effective_stress = abs(tau);
-#line 89 "CrystalPlasticityDislocationUpdate.mfront"
-auto slip_resistance = (this->tau_c_0);
 #line 91 "CrystalPlasticityDislocationUpdate.mfront"
-for (size_type j = 0; j != CrystalPlasticityDislocationUpdate::Nss; ++j) {
+auto slip_resistance = (this->tau_c_0);
 #line 93 "CrystalPlasticityDislocationUpdate.mfront"
-taylor_hardening += m(i,j) * (this->rho_ssd)[j];
-#line 95 "CrystalPlasticityDislocationUpdate.mfront"
-}
-#line 97 "CrystalPlasticityDislocationUpdate.mfront"
-slip_resistance += (this->alpha_0) * (this->shear_modulus) * (this->burgers_vector_mag) * std::sqrt(taylor_hardening);
-#line 101 "CrystalPlasticityDislocationUpdate.mfront"
-auto dslip_resistance_dgammadoti = 0.5 * (this->alpha_0) * (this->shear_modulus) * (this->burgers_vector_mag) / std::sqrt(taylor_hardening);
-#line 102 "CrystalPlasticityDislocationUpdate.mfront"
-auto drho_ssd_dgammadoti = ((this->k_0) * std::sqrt((this->rho_ssd)[i]) - 2.0 * (this->y_c) * (this->rho_ssd)[i]) / (this->burgers_vector_mag);
-#line 103 "CrystalPlasticityDislocationUpdate.mfront"
-dslip_resistance_dgammadoti *= m(i,i) * drho_ssd_dgammadoti;
-#line 105 "CrystalPlasticityDislocationUpdate.mfront"
-auto stress_ratio = effective_stress / slip_resistance;
-#line 109 "CrystalPlasticityDislocationUpdate.mfront"
-if (stress_ratio > 2) {
-#line 110 "CrystalPlasticityDislocationUpdate.mfront"
-return false;
-#line 111 "CrystalPlasticityDislocationUpdate.mfront"
-}
-#line 114 "CrystalPlasticityDislocationUpdate.mfront"
-const auto sgn = tau > 0 ? 1 : -1;
-#line 117 "CrystalPlasticityDislocationUpdate.mfront"
-auto n = 1.0 / (this->xm);
-#line 120 "CrystalPlasticityDislocationUpdate.mfront"
-const auto v = (this->ao) * pow(stress_ratio, n);
-#line 121 "CrystalPlasticityDislocationUpdate.mfront"
-const auto dv = n * (this->ao) * pow(stress_ratio, n-1) / slip_resistance;
-#line 124 "CrystalPlasticityDislocationUpdate.mfront"
-fg[i] -= (this->dt) * v * sgn;
-#line 127 "CrystalPlasticityDislocationUpdate.mfront"
-dfg_ddeel(i) = -(this->dt) * dv * (ss.mu[i] | dM_ddeel);
-#line 133 "CrystalPlasticityDislocationUpdate.mfront"
-dfg_ddg(i, i) += 0.0;
-#line 135 "CrystalPlasticityDislocationUpdate.mfront"
-auto dslip_resistance_dgammadotj = 0.5 * (this->alpha_0) * (this->shear_modulus) * (this->burgers_vector_mag) / std::sqrt(taylor_hardening);
-#line 137 "CrystalPlasticityDislocationUpdate.mfront"
 for (size_type j = 0; j != CrystalPlasticityDislocationUpdate::Nss; ++j) {
-#line 139 "CrystalPlasticityDislocationUpdate.mfront"
-auto drho_ssd_dgammadotj = ((this->k_0) * std::sqrt((this->rho_ssd)[j]) - 2.0 * (this->y_c) * (this->rho_ssd)[j]) / (this->burgers_vector_mag);
-#line 140 "CrystalPlasticityDislocationUpdate.mfront"
-dslip_resistance_dgammadotj *= m(i,j) * drho_ssd_dgammadotj;
-#line 144 "CrystalPlasticityDislocationUpdate.mfront"
-dfg_ddg(i, j) += 0.0;
-#line 145 "CrystalPlasticityDislocationUpdate.mfront"
+#line 95 "CrystalPlasticityDislocationUpdate.mfront"
+taylor_hardening += m(i,j) * ((this->init_rho_ssd) + (this->delta_rho_ssd)[j]);
+#line 97 "CrystalPlasticityDislocationUpdate.mfront"
 }
+#line 99 "CrystalPlasticityDislocationUpdate.mfront"
+slip_resistance += (this->alpha_0) * (this->shear_modulus) * (this->burgers_vector_mag) * std::sqrt(taylor_hardening);
+#line 103 "CrystalPlasticityDislocationUpdate.mfront"
+auto dslip_resistance_dgammadoti = 0.5 * (this->alpha_0) * (this->shear_modulus) * (this->burgers_vector_mag) / std::sqrt(taylor_hardening);
+#line 104 "CrystalPlasticityDislocationUpdate.mfront"
+auto drho_ssd_dgammadoti = ((this->k_0) * std::sqrt((this->init_rho_ssd) + (this->delta_rho_ssd)[i]) - 2.0 * (this->y_c) * ((this->init_rho_ssd) + (this->delta_rho_ssd)[i])) / (this->burgers_vector_mag);
+#line 105 "CrystalPlasticityDislocationUpdate.mfront"
+dslip_resistance_dgammadoti *= m(i,i) * drho_ssd_dgammadoti;
+#line 107 "CrystalPlasticityDislocationUpdate.mfront"
+auto stress_ratio = effective_stress / slip_resistance;
+#line 111 "CrystalPlasticityDislocationUpdate.mfront"
+if (stress_ratio > 2) {
+#line 112 "CrystalPlasticityDislocationUpdate.mfront"
+return false;
+#line 113 "CrystalPlasticityDislocationUpdate.mfront"
+}
+#line 116 "CrystalPlasticityDislocationUpdate.mfront"
+const auto sgn = tau > 0 ? 1 : -1;
+#line 119 "CrystalPlasticityDislocationUpdate.mfront"
+auto n = 1.0 / (this->xm);
+#line 122 "CrystalPlasticityDislocationUpdate.mfront"
+const auto v = (this->ao) * pow(stress_ratio, n);
+#line 123 "CrystalPlasticityDislocationUpdate.mfront"
+const auto dv = n * (this->ao) * pow(stress_ratio, n-1) / slip_resistance;
+#line 126 "CrystalPlasticityDislocationUpdate.mfront"
+fg[i] -= (this->dt) * v * sgn;
+#line 129 "CrystalPlasticityDislocationUpdate.mfront"
+dfg_ddeel(i) = -(this->dt) * dv * (ss.mu[i] | dM_ddeel);
+#line 135 "CrystalPlasticityDislocationUpdate.mfront"
+dfg_ddg(i, i) += 0.0;
+#line 137 "CrystalPlasticityDislocationUpdate.mfront"
+auto dslip_resistance_dgammadotj = 0.5 * (this->alpha_0) * (this->shear_modulus) * (this->burgers_vector_mag) / std::sqrt(taylor_hardening);
+#line 139 "CrystalPlasticityDislocationUpdate.mfront"
+for (size_type j = 0; j != CrystalPlasticityDislocationUpdate::Nss; ++j) {
+#line 141 "CrystalPlasticityDislocationUpdate.mfront"
+auto drho_ssd_dgammadotj = ((this->k_0) * std::sqrt((this->init_rho_ssd) + (this->delta_rho_ssd)[j]) - 2.0 * (this->y_c) * ((this->init_rho_ssd) + (this->delta_rho_ssd)[j])) / (this->burgers_vector_mag);
+#line 142 "CrystalPlasticityDislocationUpdate.mfront"
+dslip_resistance_dgammadotj *= m(i,j) * drho_ssd_dgammadotj;
 #line 146 "CrystalPlasticityDislocationUpdate.mfront"
+dfg_ddg(i, j) += 0.0;
+#line 147 "CrystalPlasticityDislocationUpdate.mfront"
+}
+#line 148 "CrystalPlasticityDislocationUpdate.mfront"
 }
 static_cast<void>(dfeel_ddeel); /* suppress potential warnings */
 return true;
@@ -1171,7 +1176,7 @@ os << "g : " << b.g << '\n';
 os << "Δg : " << b.dg << '\n';
 os << "Fe : " << b.Fe << '\n';
 os << "p : " << b.p << '\n';
-os << "rho_ssd : " << b.rho_ssd << '\n';
+os << "delta_rho_ssd : " << b.delta_rho_ssd << '\n';
 os << "T : " << b.T << '\n';
 os << "ΔT : " << b.dT << '\n';
 os << "D : " << b.D << '\n';
@@ -1200,6 +1205,7 @@ os << "k_0 : " << b.k_0 << '\n';
 os << "y_c : " << b.y_c << '\n';
 os << "h : " << b.h << '\n';
 os << "h_D : " << b.h_D << '\n';
+os << "init_rho_ssd : " << b.init_rho_ssd << '\n';
 os << "minimal_time_step_scaling_factor : " << b.minimal_time_step_scaling_factor << '\n';
 os << "maximal_time_step_scaling_factor : " << b.maximal_time_step_scaling_factor << '\n';
 os << "numerical_jacobian_epsilon : " << b.numerical_jacobian_epsilon << '\n';
