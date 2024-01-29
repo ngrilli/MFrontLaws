@@ -11,7 +11,7 @@
 @InternalStateVariable 'ElasticPartOfTheDeformationGradient' {1,1,1,0,0,0,0,0,0};
 
 // Initialization of the dislocation density
-@InternalStateVariable 'rho_ssd' {257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578,257.3578};
+// is in the MFront law
 
 // Crystal orientation
 @RotationMatrix {{ 1.0 , 0.0 , 0.0 },
@@ -20,7 +20,7 @@
 
 // load along FZZ, lateral surfaces are free
 // and no shear deformation
-@ImposedDeformationGradient 'FZZ' {0:1,10:1.1};
+@ImposedDeformationGradient 'FZZ' {0:1,100:1.1};
 @ImposedDeformationGradient 'FXY' 0;
 @ImposedDeformationGradient 'FYX' 0;
 @ImposedDeformationGradient 'FXZ' 0;
@@ -29,4 +29,4 @@
 @ImposedDeformationGradient 'FZY' 0;
 
 // initial time, final time, number of time steps
-@Times {0.,10. in 10000};
+@Times {0.,100. in 50000};
