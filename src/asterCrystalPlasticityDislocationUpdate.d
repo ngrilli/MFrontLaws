@@ -384,8 +384,6 @@ asterCrystalPlasticityDislocationUpdate.o asterCrystalPlasticityDislocationUpdat
  /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Material/Hill.ixx \
  /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Material/Barlat2004YieldCriterion.hxx \
  /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Material/Barlat2004YieldCriterion.ixx \
- /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Material/StiffnessTensor.hxx \
- /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Material/StiffnessTensor.ixx \
  ../include/TFEL/Material/CrystalPlasticityDislocationUpdateBehaviourData.hxx \
  /usr/include/c++/6/sstream /usr/include/c++/6/bits/sstream.tcc \
  /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Math/Vector/tvectorIO.hxx \

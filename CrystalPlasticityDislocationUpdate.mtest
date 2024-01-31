@@ -4,14 +4,37 @@
 
 @Real 'temper' 298.; // K
 
+// MPa units
+@Real 'young' 93812.45;
+@Real 'nu'    0.40228;
+@Real 'G'     126200.0;
+
 @ExternalStateVariable<evolution> 'Temperature' 'temper'; // in Kelvin
 
-// Initialise elastic deformation gradient as identity matrix
-// otherwise by default internal variables are initialised as zero
-@InternalStateVariable 'ElasticPartOfTheDeformationGradient' {1,1,1,0,0,0,0,0,0};
+@MaterialProperty<constant> 'YoungModulus1'     'young';
+@MaterialProperty<constant> 'YoungModulus2'     'young';
+@MaterialProperty<constant> 'YoungModulus3'     'young';
+@MaterialProperty<constant> 'PoissonRatio12'       'nu';
+@MaterialProperty<constant> 'PoissonRatio13'       'nu';
+@MaterialProperty<constant> 'PoissonRatio23'       'nu';
+@MaterialProperty<constant> 'ShearModulus12'        'G';
+@MaterialProperty<constant> 'ShearModulus13'        'G';
+@MaterialProperty<constant> 'ShearModulus23'        'G';
 
-// Initialization of the dislocation density
-// is in the MFront law
+@MaterialProperty<constant> 'ao'                 0.001; // Slip rate coefficient 
+@MaterialProperty<constant> 'xm'                 0.1; // Exponent for slip rate
+@MaterialProperty<constant> 'creep_ao'           0.0; // Creep rate coefficient
+@MaterialProperty<constant> 'creep_xm'           0.1; // Exponent for creep rate
+@MaterialProperty<constant> 'burgers_vector_mag' 0.000256; // Magnitude of the Burgers' vector
+@MaterialProperty<constant> 'shear_modulus'      126200.0; // Shear modulus in Taylor hardening law G
+@MaterialProperty<constant> 'alpha_0'            0.3; // Prefactor of Taylor hardening law, alpha
+@MaterialProperty<constant> 'r'                  1.4; // Latent hardening coefficient
+@MaterialProperty<constant> 'tau_c_0'            0.112; // Peierls stress
+@MaterialProperty<constant> 'k_0'                1.13; // Coefficient K in SSD evolution, representing accumulation rate
+@MaterialProperty<constant> 'y_c'                0.0013; // Critical annihilation diameter
+@MaterialProperty<constant> 'h'                  0.0; // Direct hardening coefficient for backstress
+@MaterialProperty<constant> 'h_D'                0.0; // Dynamic recovery coefficient for backstress
+@MaterialProperty<constant> 'init_rho_ssd'       4.921; // Initial dislocation density on each slip system
 
 // Crystal orientation
 @RotationMatrix {{ 1.0 , 0.0 , 0.0 },

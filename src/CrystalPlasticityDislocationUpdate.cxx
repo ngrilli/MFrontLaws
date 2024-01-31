@@ -43,52 +43,6 @@ if(::strcmp("epsilon",key)==0){
 CrystalPlasticityDislocationUpdateParametersInitializer::get().set("epsilon",v);
 } else if(::strcmp("theta",key)==0){
 CrystalPlasticityDislocationUpdateParametersInitializer::get().set("theta",v);
-} else if(::strcmp("YoungModulus1",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("YoungModulus1",v);
-} else if(::strcmp("YoungModulus2",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("YoungModulus2",v);
-} else if(::strcmp("YoungModulus3",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("YoungModulus3",v);
-} else if(::strcmp("PoissonRatio12",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("PoissonRatio12",v);
-} else if(::strcmp("PoissonRatio23",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("PoissonRatio23",v);
-} else if(::strcmp("PoissonRatio13",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("PoissonRatio13",v);
-} else if(::strcmp("ShearModulus12",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("ShearModulus12",v);
-} else if(::strcmp("ShearModulus23",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("ShearModulus23",v);
-} else if(::strcmp("ShearModulus13",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("ShearModulus13",v);
-} else if(::strcmp("ao",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("ao",v);
-} else if(::strcmp("xm",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("xm",v);
-} else if(::strcmp("creep_ao",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("creep_ao",v);
-} else if(::strcmp("creep_xm",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("creep_xm",v);
-} else if(::strcmp("burgers_vector_mag",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("burgers_vector_mag",v);
-} else if(::strcmp("shear_modulus",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("shear_modulus",v);
-} else if(::strcmp("alpha_0",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("alpha_0",v);
-} else if(::strcmp("r",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("r",v);
-} else if(::strcmp("tau_c_0",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("tau_c_0",v);
-} else if(::strcmp("k_0",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("k_0",v);
-} else if(::strcmp("y_c",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("y_c",v);
-} else if(::strcmp("h",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("h",v);
-} else if(::strcmp("h_D",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("h_D",v);
-} else if(::strcmp("init_rho_ssd",key)==0){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("init_rho_ssd",v);
 } else if(::strcmp("minimal_time_step_scaling_factor",key)==0){
 CrystalPlasticityDislocationUpdateParametersInitializer::get().set("minimal_time_step_scaling_factor",v);
 } else if(::strcmp("maximal_time_step_scaling_factor",key)==0){
@@ -151,75 +105,6 @@ CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tok
 } else if("theta"==tokens[0]){
 CrystalPlasticityDislocationUpdateParametersInitializer::get().set("theta",
 CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("YoungModulus1"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("YoungModulus1",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("YoungModulus2"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("YoungModulus2",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("YoungModulus3"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("YoungModulus3",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("PoissonRatio12"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("PoissonRatio12",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("PoissonRatio23"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("PoissonRatio23",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("PoissonRatio13"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("PoissonRatio13",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("ShearModulus12"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("ShearModulus12",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("ShearModulus23"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("ShearModulus23",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("ShearModulus13"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("ShearModulus13",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("ao"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("ao",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("xm"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("xm",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("creep_ao"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("creep_ao",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("creep_xm"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("creep_xm",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("burgers_vector_mag"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("burgers_vector_mag",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("shear_modulus"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("shear_modulus",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("alpha_0"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("alpha_0",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("r"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("r",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("tau_c_0"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("tau_c_0",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("k_0"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("k_0",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("y_c"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("y_c",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("h"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("h",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("h_D"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("h_D",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
-} else if("init_rho_ssd"==tokens[0]){
-CrystalPlasticityDislocationUpdateParametersInitializer::get().set("init_rho_ssd",
-CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
 } else if("minimal_time_step_scaling_factor"==tokens[0]){
 CrystalPlasticityDislocationUpdateParametersInitializer::get().set("minimal_time_step_scaling_factor",
 CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]));
@@ -249,29 +134,6 @@ CrystalPlasticityDislocationUpdateParametersInitializer::CrystalPlasticityDisloc
 {
 this->epsilon = 1e-14;
 this->theta = 1;
-this->young1 = 93812.4;
-this->young2 = 93812.4;
-this->young3 = 93812.4;
-this->nu12 = 0.40228;
-this->nu23 = 0.40228;
-this->nu13 = 0.40228;
-this->mu12 = 126200;
-this->mu23 = 126200;
-this->mu13 = 126200;
-this->ao = 0.001;
-this->xm = 0.1;
-this->creep_ao = 0;
-this->creep_xm = 0.1;
-this->burgers_vector_mag = 0.000256;
-this->shear_modulus = 126200;
-this->alpha_0 = 0.3;
-this->r = 1.4;
-this->tau_c_0 = 0.112;
-this->k_0 = 1.13;
-this->y_c = 0.0013;
-this->h = 0;
-this->h_D = 0;
-this->init_rho_ssd = 4.921;
 this->minimal_time_step_scaling_factor = 0.1;
 this->maximal_time_step_scaling_factor = 1.79769e+308;
 this->numerical_jacobian_epsilon = 1e-15;
@@ -288,52 +150,6 @@ if(::strcmp("epsilon",key)==0){
 this->epsilon = v;
 } else if(::strcmp("theta",key)==0){
 this->theta = v;
-} else if(::strcmp("YoungModulus1",key)==0){
-this->young1 = v;
-} else if(::strcmp("YoungModulus2",key)==0){
-this->young2 = v;
-} else if(::strcmp("YoungModulus3",key)==0){
-this->young3 = v;
-} else if(::strcmp("PoissonRatio12",key)==0){
-this->nu12 = v;
-} else if(::strcmp("PoissonRatio23",key)==0){
-this->nu23 = v;
-} else if(::strcmp("PoissonRatio13",key)==0){
-this->nu13 = v;
-} else if(::strcmp("ShearModulus12",key)==0){
-this->mu12 = v;
-} else if(::strcmp("ShearModulus23",key)==0){
-this->mu23 = v;
-} else if(::strcmp("ShearModulus13",key)==0){
-this->mu13 = v;
-} else if(::strcmp("ao",key)==0){
-this->ao = v;
-} else if(::strcmp("xm",key)==0){
-this->xm = v;
-} else if(::strcmp("creep_ao",key)==0){
-this->creep_ao = v;
-} else if(::strcmp("creep_xm",key)==0){
-this->creep_xm = v;
-} else if(::strcmp("burgers_vector_mag",key)==0){
-this->burgers_vector_mag = v;
-} else if(::strcmp("shear_modulus",key)==0){
-this->shear_modulus = v;
-} else if(::strcmp("alpha_0",key)==0){
-this->alpha_0 = v;
-} else if(::strcmp("r",key)==0){
-this->r = v;
-} else if(::strcmp("tau_c_0",key)==0){
-this->tau_c_0 = v;
-} else if(::strcmp("k_0",key)==0){
-this->k_0 = v;
-} else if(::strcmp("y_c",key)==0){
-this->y_c = v;
-} else if(::strcmp("h",key)==0){
-this->h = v;
-} else if(::strcmp("h_D",key)==0){
-this->h_D = v;
-} else if(::strcmp("init_rho_ssd",key)==0){
-this->init_rho_ssd = v;
 } else if(::strcmp("minimal_time_step_scaling_factor",key)==0){
 this->minimal_time_step_scaling_factor = v;
 } else if(::strcmp("maximal_time_step_scaling_factor",key)==0){
@@ -420,52 +236,6 @@ if("epsilon"==tokens[0]){
 pi.epsilon = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
 } else if("theta"==tokens[0]){
 pi.theta = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("YoungModulus1"==tokens[0]){
-pi.young1 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("YoungModulus2"==tokens[0]){
-pi.young2 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("YoungModulus3"==tokens[0]){
-pi.young3 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("PoissonRatio12"==tokens[0]){
-pi.nu12 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("PoissonRatio23"==tokens[0]){
-pi.nu23 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("PoissonRatio13"==tokens[0]){
-pi.nu13 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("ShearModulus12"==tokens[0]){
-pi.mu12 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("ShearModulus23"==tokens[0]){
-pi.mu23 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("ShearModulus13"==tokens[0]){
-pi.mu13 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("ao"==tokens[0]){
-pi.ao = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("xm"==tokens[0]){
-pi.xm = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("creep_ao"==tokens[0]){
-pi.creep_ao = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("creep_xm"==tokens[0]){
-pi.creep_xm = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("burgers_vector_mag"==tokens[0]){
-pi.burgers_vector_mag = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("shear_modulus"==tokens[0]){
-pi.shear_modulus = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("alpha_0"==tokens[0]){
-pi.alpha_0 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("r"==tokens[0]){
-pi.r = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("tau_c_0"==tokens[0]){
-pi.tau_c_0 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("k_0"==tokens[0]){
-pi.k_0 = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("y_c"==tokens[0]){
-pi.y_c = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("h"==tokens[0]){
-pi.h = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("h_D"==tokens[0]){
-pi.h_D = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
-} else if("init_rho_ssd"==tokens[0]){
-pi.init_rho_ssd = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
 } else if("minimal_time_step_scaling_factor"==tokens[0]){
 pi.minimal_time_step_scaling_factor = CrystalPlasticityDislocationUpdateParametersInitializer::getDouble(tokens[0],tokens[1]);
 } else if("maximal_time_step_scaling_factor"==tokens[0]){

@@ -471,8 +471,6 @@ CrystalPlasticityDislocationUpdate.o CrystalPlasticityDislocationUpdate.d : \
  /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Material/Hill.ixx \
  /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Material/Barlat2004YieldCriterion.hxx \
  /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Material/Barlat2004YieldCriterion.ixx \
- /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Material/StiffnessTensor.hxx \
- /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Material/StiffnessTensor.ixx \
  /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Math/Vector/TinyVectorFromTinyVectorViewIO.hxx \
  /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Math/Stensor/StensorFromTinyVectorView.hxx \
  /opt/salome_meca/Salome-V2021-s9/prerequisites/Mfront-TFEL340/include/TFEL-3.4.0/TFEL/Math/Stensor/StensorFromTinyMatrixRowView.hxx \

@@ -12,23 +12,16 @@ https://github.com/ngrilli/c_pfor_am/blob/main/src/materials/CrystalPlasticityDi
 }
 
 @ModellingHypothesis Tridimensional;
+
 @OrthotropicBehaviour;
+@RequireStiffnessTensor;
 
 @Algorithm NewtonRaphson;
 @Epsilon 1.e-14;
 @Theta 1;
 
-// MPa units
 @Brick FiniteStrainSingleCrystal{
-  young_modulus1 : 93812.45,
-  young_modulus2 : 93812.45,
-  young_modulus3 : 93812.45,
-  poisson_ratio12 : 0.40228,
-  poisson_ratio23 : 0.40228,
-  poisson_ratio13 : 0.40228,
-  shear_modulus12 : 126200.0,
-  shear_modulus23 : 126200.0,
-  shear_modulus13 : 126200.0
+  shifted_elastic_deformation_gradient : true
 };
 
 @CrystalStructure FCC;
@@ -41,20 +34,20 @@ https://github.com/ngrilli/c_pfor_am/blob/main/src/materials/CrystalPlasticityDi
 @InteractionMatrix{1, 1, 1.4, 1.4, 1.4, 1.4, 1.4};
 
 // Dislocation based model parameters
-@Parameter ao = 0.001; // Slip rate coefficient 
-@Parameter xm = 0.1; // Exponent for slip rate
-@Parameter creep_ao = 0.0; // Creep rate coefficient 
-@Parameter creep_xm = 0.1; // Exponent for creep rate
-@Parameter burgers_vector_mag = 0.000256; // Magnitude of the Burgers' vector
-@Parameter shear_modulus = 126200.0; // Shear modulus in Taylor hardening law G
-@Parameter alpha_0 = 0.3; // Prefactor of Taylor hardening law, alpha
-@Parameter r = 1.4; // Latent hardening coefficient
-@Parameter tau_c_0 = 0.112; // Peierls stress
-@Parameter k_0 = 1.13; // Coefficient K in SSD evolution, representing accumulation rate
-@Parameter y_c = 0.0013; // Critical annihilation diameter
-@Parameter h = 0.0; // Direct hardening coefficient for backstress
-@Parameter h_D = 0.0; // Dynamic recovery coefficient for backstress
-@Parameter init_rho_ssd = 4.921; // Initial dislocation density on each slip system
+@MaterialProperty real ao; // Slip rate coefficient 
+@MaterialProperty real xm; // Exponent for slip rate
+@MaterialProperty real creep_ao; // Creep rate coefficient 
+@MaterialProperty real creep_xm; // Exponent for creep rate
+@MaterialProperty real burgers_vector_mag; // Magnitude of the Burgers' vector
+@MaterialProperty real shear_modulus; // Shear modulus in Taylor hardening law G
+@MaterialProperty real alpha_0; // Prefactor of Taylor hardening law, alpha
+@MaterialProperty real r; // Latent hardening coefficient
+@MaterialProperty real tau_c_0; // Peierls stress
+@MaterialProperty real k_0; // Coefficient K in SSD evolution, representing accumulation rate
+@MaterialProperty real y_c; // Critical annihilation diameter
+@MaterialProperty real h; // Direct hardening coefficient for backstress
+@MaterialProperty real h_D; // Dynamic recovery coefficient for backstress
+@MaterialProperty real init_rho_ssd; // Initial dislocation density on each slip system
 
 @AuxiliaryStateVariable strain p[Nss];
 p.setEntryName("EquivalentViscoplasticSlip");

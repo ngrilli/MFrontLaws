@@ -134,16 +134,46 @@ using PhysicalConstants = tfel::PhysicalConstants<real>;
 
 protected:
 
+//! stiffness tensor computed by the calling solver
+StiffnessTensor D;
 DeformationGradientTensor F0;
 
 StressStensor sig;
 
+#line 37 "CrystalPlasticityDislocationUpdate.mfront"
+real ao;
+#line 38 "CrystalPlasticityDislocationUpdate.mfront"
+real xm;
+#line 39 "CrystalPlasticityDislocationUpdate.mfront"
+real creep_ao;
+#line 40 "CrystalPlasticityDislocationUpdate.mfront"
+real creep_xm;
+#line 41 "CrystalPlasticityDislocationUpdate.mfront"
+real burgers_vector_mag;
+#line 42 "CrystalPlasticityDislocationUpdate.mfront"
+real shear_modulus;
+#line 43 "CrystalPlasticityDislocationUpdate.mfront"
+real alpha_0;
+#line 44 "CrystalPlasticityDislocationUpdate.mfront"
+real r;
+#line 45 "CrystalPlasticityDislocationUpdate.mfront"
+real tau_c_0;
+#line 46 "CrystalPlasticityDislocationUpdate.mfront"
+real k_0;
+#line 47 "CrystalPlasticityDislocationUpdate.mfront"
+real y_c;
+#line 48 "CrystalPlasticityDislocationUpdate.mfront"
+real h;
+#line 49 "CrystalPlasticityDislocationUpdate.mfront"
+real h_D;
+#line 50 "CrystalPlasticityDislocationUpdate.mfront"
+real init_rho_ssd;
 
 tfel::math::tvector<12, strain > g;
 DeformationGradientTensor Fe;
-#line 59 "CrystalPlasticityDislocationUpdate.mfront"
+#line 52 "CrystalPlasticityDislocationUpdate.mfront"
 tfel::math::tvector<12, strain > p;
-#line 64 "CrystalPlasticityDislocationUpdate.mfront"
+#line 57 "CrystalPlasticityDislocationUpdate.mfront"
 tfel::math::tvector<12, strain > delta_rho_ssd;
 temperature T;
 
@@ -159,8 +189,23 @@ CrystalPlasticityDislocationUpdateBehaviourData()
 * \brief copy constructor
 */
 CrystalPlasticityDislocationUpdateBehaviourData(const CrystalPlasticityDislocationUpdateBehaviourData& src)
-: F0(src.F0),
+: D(src.D),
+F0(src.F0),
 sig(src.sig),
+ao(src.ao),
+xm(src.xm),
+creep_ao(src.creep_ao),
+creep_xm(src.creep_xm),
+burgers_vector_mag(src.burgers_vector_mag),
+shear_modulus(src.shear_modulus),
+alpha_0(src.alpha_0),
+r(src.r),
+tau_c_0(src.tau_c_0),
+k_0(src.k_0),
+y_c(src.y_c),
+h(src.h),
+h_D(src.h_D),
+init_rho_ssd(src.init_rho_ssd),
 g(src.g),
 Fe(src.Fe),
 p(src.p),
@@ -175,10 +220,24 @@ T(src.T)
  * \param[in] ASTERint_vars: state variables
  * \param[in] ASTERext_vars: external std::ate variables
  */
-CrystalPlasticityDislocationUpdateBehaviourData(const Type* const ASTERT_,const Type* const,
+CrystalPlasticityDislocationUpdateBehaviourData(const Type* const ASTERT_,const Type* const ASTERmat,
 const Type* const ASTERint_vars
 ,const Type* const)
-: Fe(&ASTERint_vars[12]),
+: ao(ASTERmat[0]),
+xm(ASTERmat[1]),
+creep_ao(ASTERmat[2]),
+creep_xm(ASTERmat[3]),
+burgers_vector_mag(ASTERmat[4]),
+shear_modulus(ASTERmat[5]),
+alpha_0(ASTERmat[6]),
+r(ASTERmat[7]),
+tau_c_0(ASTERmat[8]),
+k_0(ASTERmat[9]),
+y_c(ASTERmat[10]),
+h(ASTERmat[11]),
+h_D(ASTERmat[12]),
+init_rho_ssd(ASTERmat[13]),
+Fe(&ASTERint_vars[12]),
 T(*ASTERT_)
 {
 g[0] = ASTERint_vars[0];
@@ -230,6 +289,16 @@ this->sig.importTab(ASTERstress_);
 }
 
 
+StiffnessTensor& getStiffnessTensor()
+{
+return this->D;
+}
+
+const StiffnessTensor& getStiffnessTensor() const
+{
+return this->D;
+}
+
 /*
 * \brief Assignement operator
 */
@@ -237,6 +306,20 @@ CrystalPlasticityDislocationUpdateBehaviourData&
 operator=(const CrystalPlasticityDislocationUpdateBehaviourData& src){
 this->F0 = src.F0;
 this->sig = src.sig;
+this->ao = src.ao;
+this->xm = src.xm;
+this->creep_ao = src.creep_ao;
+this->creep_xm = src.creep_xm;
+this->burgers_vector_mag = src.burgers_vector_mag;
+this->shear_modulus = src.shear_modulus;
+this->alpha_0 = src.alpha_0;
+this->r = src.r;
+this->tau_c_0 = src.tau_c_0;
+this->k_0 = src.k_0;
+this->y_c = src.y_c;
+this->h = src.h;
+this->h_D = src.h_D;
+this->init_rho_ssd = src.init_rho_ssd;
 this->g = src.g;
 this->Fe = src.Fe;
 this->p = src.p;
@@ -297,6 +380,20 @@ operator <<(std::ostream& os,const CrystalPlasticityDislocationUpdateBehaviourDa
 {
 os << "F₀ : " << b.F0 << '\n';
 os << "σ : " << b.sig << '\n';
+os << "ao : " << b.ao << '\n';
+os << "xm : " << b.xm << '\n';
+os << "creep_ao : " << b.creep_ao << '\n';
+os << "creep_xm : " << b.creep_xm << '\n';
+os << "burgers_vector_mag : " << b.burgers_vector_mag << '\n';
+os << "shear_modulus : " << b.shear_modulus << '\n';
+os << "alpha_0 : " << b.alpha_0 << '\n';
+os << "r : " << b.r << '\n';
+os << "tau_c_0 : " << b.tau_c_0 << '\n';
+os << "k_0 : " << b.k_0 << '\n';
+os << "y_c : " << b.y_c << '\n';
+os << "h : " << b.h << '\n';
+os << "h_D : " << b.h_D << '\n';
+os << "init_rho_ssd : " << b.init_rho_ssd << '\n';
 os << "g : " << b.g << '\n';
 os << "Fe : " << b.Fe << '\n';
 os << "p : " << b.p << '\n';

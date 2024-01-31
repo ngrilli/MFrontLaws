@@ -54,14 +54,14 @@ static constexpr unsigned short GradientSize = TensorSize;
 // size of the thermodynamic force variable array (STRESS)
 static constexpr unsigned short ThermodynamicForceVariableSize = StensorSize;
 static constexpr AsterErrorReportPolicy errorReportPolicy = ASTER_NOERRORREPORT;
-static constexpr bool requiresUnAlteredStiffnessTensor = true;
-static constexpr bool requiresStiffnessTensor = false;
+static constexpr bool requiresUnAlteredStiffnessTensor = false;
+static constexpr bool requiresStiffnessTensor = true;
 static constexpr bool requiresThermalExpansionCoefficientTensor = false;
 static constexpr AsterSymmetryType type = aster::ORTHOTROPIC;
 static constexpr AsterFiniteStrainFormulation afsf = aster::SIMO_MIEHE;
-static constexpr unsigned short material_properties_nb = 0;
+static constexpr unsigned short material_properties_nb = 14;
 static constexpr AsterSymmetryType etype = aster::ORTHOTROPIC;
-static constexpr unsigned short elasticPropertiesOffset = 0u;
+static constexpr unsigned short elasticPropertiesOffset = AsterOrthotropicElasticPropertiesOffset<N>::value;
 static constexpr unsigned short thermalExpansionPropertiesOffset = 0u;
 }; // end of class AsterTraits
 
